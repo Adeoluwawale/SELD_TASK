@@ -1,7 +1,7 @@
 import random
 from itertools import combinations
 from pathlib import Path
-
+import matplotlib.pyplot as plt
 import h5py
 import numpy as np
 import torch
@@ -11,7 +11,7 @@ from methods.utils.data_utilities import to_metrics2020_format
 
 class Trainer(BaseTrainer):
 
-    def __init__(self, args, cfg, dataset, af_extractor, valid_set, model, optimizer, losses, metrics):
+    def __init__(self,  args,cfg, dataset, af_extractor, valid_set, model, optimizer, losses, metrics):
 
         super().__init__()
         self.cfg = cfg
@@ -88,7 +88,7 @@ class Trainer(BaseTrainer):
         self.train_losses['loss_doa'] += loss_dict['doa']
         
 
-    def validate_step(self, generator=None, max_batch_num=None, valid_type='train', epoch_it=0):
+    def validate_step(self,generator=None, max_batch_num=None,valid_type='train', epoch_it=0):
         """ Perform the validation on the train, valid set
 
         Generate a batch of segmentations each time
@@ -182,9 +182,10 @@ class Trainer(BaseTrainer):
                 'dcase2020': gt_metrics2020_dict,
             }
             metrics_scores = self.metrics.calculate(pred_dict, gt_dict)
+             
             return out_losses, metrics_scores
 
-
+                    
 def to_metrics2019_format(sed_labels, doa_labels):
     """Convert sed and doa labels from track-wise output format to DCASE2019 evaluation metrics input format
 
